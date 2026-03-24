@@ -1,7 +1,7 @@
 import streamlit as st
 import altair as alt
 import pandas as pd
-from utils import get_dataframe, get_dataframe_grouped, filter_options
+from src/utils import get_dataframe, get_dataframe_grouped, filter_options
 from typing import Dict, List, Any
 
 @st.cache_data
