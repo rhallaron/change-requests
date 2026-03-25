@@ -49,6 +49,10 @@ def get_dataframe():
     output_df["Date Requested"] = pd.to_datetime(output_df["Date Requested"], errors="coerce").dt.strftime("%m/%d/%Y")
     output_df["Target Availability"] = pd.to_datetime(output_df["Target Availability"], errors="coerce").dt.strftime("%m/%d/%Y")
     output_df["Requested Due Date"] = pd.to_datetime(output_df["Requested Due Date"], errors="coerce").dt.strftime("%m/%d/%Y")
+    output_df["Date Completed"] = pd.to_datetime(output_df["Date Completed"], errors="coerce").dt.strftime("%m/%d/%Y")
+    output_df["Reviewed Date"] = pd.to_datetime(output_df["Reviewed Date"], errors="coerce").dt.strftime("%m/%d/%Y")
+    output_df["Follow Up"] = pd.to_datetime(output_df["Follow Up"], errors="coerce").dt.strftime("%m/%d/%Y")
+    output_df["Modified"] = pd.to_datetime(output_df["Modified"], errors="coerce").dt.strftime("%m/%d/%Y")
     output_df["runtime"] = pd.Timestamp("now")
 
     return output_df
