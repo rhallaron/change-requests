@@ -1,6 +1,9 @@
 FROM python:3.12.3
 
-WORKDIR /app/
+WORKDIR /app
+
+COPY ./app /app
+COPY ./requirements.txt /app/requirements.txt
 
 RUN apt-get update
 RUN apt-get install -y \
@@ -10,10 +13,8 @@ RUN apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/rhallaron/change-requests.git .
-
-RUN pip install -r ./requirements.txt
+RUN pip install -r requirements.txt
 
 EXPOSE 8501
 
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health || exit 1

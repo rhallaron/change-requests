@@ -3,7 +3,7 @@ services:
         build: ./
         command: streamlit run app/main.py --server.port 8501
         volumes:
-            - ./:/app/change-requests/app
+            - ./:/app
         ports:
             - 8501:8501
         image: streamlit:latest

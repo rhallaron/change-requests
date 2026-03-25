@@ -4,6 +4,8 @@ import pandas as pd
 from src.utils import get_dataframe, get_dataframe_grouped, filter_options
 from typing import Dict, List, Any
 
+st.button("Refresh Data", on_click=st.cache_data.clear)
+
 @st.cache_data
 def get_df():
     return get_dataframe()
@@ -80,21 +82,23 @@ with st.container():
             df = df[df["Issue Type"].isin(selected)]
 
     with tab2:
-        st.bar_chart(bar_status_df, x="Issue Status", y="count", x_label="Issue Status", y_label="Issue Count")
+        point_selector = alt.selection_point(fields=["Issue Status"], empty="none")
+        chart = (
+            alt.Chart(bar_status_df)
+            .mark_bar()
+            .encode(
+                x=alt.X("Issue Status", title="Issue Status"),
+                y=alt.Y("count", title="Issue Count"),
+                tooltip=["Issue Status", "count"],
+                fillOpacity=alt.condition(point_selector, alt.value(1), alt.value(0.3))
+            )
+            .add_params(point_selector)
+        )
+        event = st.altair_chart(chart, use_container_width=True, on_select="rerun")
+        if event["selection"]["param_1"]:
+            selected = []
+            for i in event["selection"]["param_1"]:
+                selected.append(i["Issue Status"])
+            df = df[df["Issue Status"].isin(selected)]
 
-    st.dataframe(df[
-        [
-            "Designator", 
-            "Request ID", 
-            "Issue Type",
-            "Assigned to", 
-            "Project ID", 
-            "ECO #", 
-            "Embedded Jira", 
-            "Mobile Jira", 
-            "Date Requested", 
-            "Requested Due Date", 
-            "Follow Up", 
-            "Target Availability"
-        ]
-    ])
+    st.dataframe(df)
